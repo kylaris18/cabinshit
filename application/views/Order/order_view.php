@@ -54,21 +54,11 @@ $this->load->view('essentials/Sidebar.php');
                       ?>
                       <tr id="entry_<?=$order['order_id']?>">
                         <td><?=$order['order_id']?></td>
-                        <td><?=$order['customer_nickname']?> (<?=$order['customer_fname']?> <?=$order['customer_lname']?>)</td>
-                        <td><span class="label label-default"><?=$order['order_status']?></span></td>
+                        <td><?=$order['customer_nickname']?></td>
+                        <td><span id="orderStatus_<?=$order['order_id']?>" class="label label-default"><?=$order['order_status']?></span></td>
                         <td><?=$order['table_name']?></td>
                         <td>
-                          <div class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Change Status
-                              <span class="fa fa-caret-down"></span></button>
-                            <ul class="dropdown-menu">
-                              <li><a href="#">Action</a></li>
-                              <li><a href="#">Another action</a></li>
-                              <li><a href="#">Something else here</a></li>
-                              <li class="divider"></li>
-                              <li><a href="#">Separated link</a></li>
-                            </ul>
-                          </div>
+                          <button type="button" id="btnChangeOrderStatus" class="btn btn-primary" onclick="changeOrderStatus('<?=$order['order_id']?>');">Change Status</button>
                         </td>     
                       </tr>
                       <?php
@@ -98,3 +88,24 @@ $this->load->view('essentials/Sidebar.php');
 $this->load->view('essentials/footer.php');
 $this->load->view('essentials/footerSrc.php');
 ?>
+<script type="text/javascript">
+  function changeOrderStatus(orderId){
+    $.ajax({
+      url: '<?php echo base_url();?>contOrders/changeOrderStatus',
+      type: 'POST',
+      dataType: 'json',
+      data: {order_id: orderId},
+    })
+    .done(function(result) {
+      console.log("success");
+      console.log(result);
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
+    
+  }
+</script>
