@@ -22,12 +22,42 @@ class ModelOrders extends CI_Model {
         // return $this->db->last_query();
     }
 
-    public function changeOrderStatus($iOrderId, $aData){
+    public function changeOrderStatus($iOrderId, $aData)
+    {
         $this->db->where('order_id', $iOrderId);
-        $query = $this->db->update('tbl_orders', $aData);
+        $this->db->update('tbl_orders', $aData);
+        return true;
+    }
+
+    public function getDiscount($aPromoCode)
+    {
+        $query = $this->db->get_where('tbl_promo', $aPromoCode);
         return $query->row_array();
     }
 
+    public function addOrder($aData)
+    {
+        $this->db->insert('tbl_orders', $aData);
+        return $this->db->insert_id();
+    }
+
+    public function addTray($aData)
+    {
+        $this->db->insert('tbl_tray', $aData);
+        return $this->db->insert_id();
+    }
+
+    public function addByob($aData)
+    {
+        $this->db->insert('tbl_byob', $aData);
+        return $this->db->insert_id();
+    }
+
+    public function addByobIng($aData)
+    {
+        $this->db->insert('tbl_byob_assemble', $aData);
+        return $this->db->insert_id();
+    }
 }
 
 /* End of file modelOrders.php */

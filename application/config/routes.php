@@ -60,3 +60,4 @@ $route['inventory'] = 'contInventory';
 $route['users'] = 'contUsers';
 $route['promo'] = 'contPromo';
 $route['order'] = 'contOrders';
+$route['byob'] = 'contByob';

@@ -45,6 +45,12 @@
         </li>
 
         <li>
+          <a href="<?php echo base_url();?>byob">
+            <i class="fa fa-magic"></i> <span>BYOB management</span>
+          </a>
+        </li>
+
+        <li>
           <a href="<?php echo base_url();?>promo">
             <i class="fa fa-certificate"></i> <span>Promo management</span>
           </a>
