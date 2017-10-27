@@ -30,6 +30,33 @@ class contLogin extends CI_Controller {
             echo json_encode(array('bSuccess' => false));
         } else {
             $aDetails = array('bSuccess' => true);
+            // if (isset($mResult['customer_id']) === true) {
+            //     $aDetails['customer_id'] = $mResult['customer_id'];
+            //     $aDetails['customer_fname'] = $mResult['customer_fname'];
+            //     $aDetails['customer_lname'] = $mResult['customer_lname'];
+            //     $aDetails['customer_nickname'] = $mResult['customer_nickname'];
+            //     $aDetails['customer_address'] = $mResult['customer_address'];
+            //     $aDetails['customer_email'] = $mResult['customer_email'];
+            //     $aDetails['customer_contact'] = $mResult['customer_contact'];
+            // }
+            $this->session->set_userdata( $aDetails );
+            echo json_encode($aDetails);
+        }
+    }
+
+    public function loginMobile()
+    {
+        $aData= array(
+            'sUsername' => $this->input->post('sUsername'),
+            'sPassword' => $this->input->post('sPassword')
+        ); 
+        $mResult = $this->modelLogin->logIn($aData); 
+        // var_dump($mResult->user_name);
+        // die();
+        if($mResult === false){
+            echo json_encode(array('bSuccess' => false));
+        } else {
+            $aDetails = array('bSuccess' => true);
             if (isset($mResult['customer_id']) === true) {
                 $aDetails['customer_id'] = $mResult['customer_id'];
                 $aDetails['customer_fname'] = $mResult['customer_fname'];
@@ -39,7 +66,6 @@ class contLogin extends CI_Controller {
                 $aDetails['customer_email'] = $mResult['customer_email'];
                 $aDetails['customer_contact'] = $mResult['customer_contact'];
             }
-            $this->session->set_userdata( $aDetails );
             echo json_encode($aDetails);
         }
     }
