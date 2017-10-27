@@ -25,6 +25,10 @@ class modelLogin extends CI_Model {
 				$sIdField = 'customer_id';
 				break;
 			
+			case 'admin':
+				return $data;
+				break;
+
 			default:
 				$sTable = 'tbl_customer';
 				$sIdField = 'customer_id';

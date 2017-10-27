@@ -37,6 +37,17 @@ class ContTable extends CI_Controller {
         echo json_encode($this->modelTable->getTables());
     }
 
+    public function editTable()
+    {
+        $aTableId = array(
+            'table_id' => $this->input->post('sTableId')
+        );
+        $aData = array(
+            'table_name' => $this->input->post('sTableName')
+        );
+        echo json_encode($this->modelTable->updateTable($aTableId, $aData));
+    }
+
 }
 
 /* End of file contTable.php */

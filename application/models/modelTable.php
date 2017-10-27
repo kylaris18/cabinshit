@@ -14,6 +14,13 @@ class ModelTable extends CI_Model {
         return $this->db->insert_id();
     }
 
+    public function updateTable($aTableId, $aData)
+    {
+        $this->db->where($aTableId);
+        $this->db->update('tbl_table', $aData);
+        return true;
+    }
+
 }
 
 /* End of file modelTable.php */

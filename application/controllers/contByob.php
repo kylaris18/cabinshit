@@ -12,21 +12,23 @@ class ContByob extends CI_Controller {
     public function index()
     {
         $aData = array(
-            'byob_res'=> $this->modelByob->getByobList()
+            'byob_res'=> $this->modelByob->getByobList(),
+            'byobOpts_res' => $this->modelByob->getByobIngrd()
         );
         $this->load->view('Byob/manage', $aData);
     }
 
-    public function updateByob()
+    public function updateByobIngrds()
     {
         $aByobId = array(
-            'byob_id' => $this->input->post('iByobId')
+            'byobOpt_id' => $this->input->post('iByobId')
         );
         $aData = array(
-            'byob_name' => $this->input->post('sByobName'),
-            'byob_creator' => $this->input->post('sByobCreator')
+            'byobOpt_name' => $this->input->post('sByobIngrdName'),
+            'byobOpt_type' => $this->input->post('iByobIngrdType'),
+            'byobOpt_price' => $this->input->post('dByobIngrdPrice')
         );
-        echo json_encode($this->modelByob->updateByob($aByobId, $aData));
+        echo json_encode($this->modelByob->updateByobIngrds($aByobId, $aData));
     }
 
     public function getByobDetails()
@@ -45,6 +47,49 @@ class ContByob extends CI_Controller {
     public function getByobIngrd()
     {
         echo json_encode($this->modelByob->getByobIngrd());
+    }
+
+    public function getByobSpecIngrd()
+    {
+        $aByobId = array(
+            'byob_id' => $this->input->post('iByobId')
+        );
+        $aIngrdsId = $this->modelByob->getByobSpecIngrd($aByobId);
+        $aIngrds = array();
+        $iIngrdsCount = count($aIngrdsId);
+        for ($iCounter = 0; $iCounter < $iIngrdsCount; $iCounter++) {
+            $aByobIngrdId = array('byobOpt_id' => $aIngrdsId[$iCounter]['byobOpt_id']);
+            array_push($aIngrds, $this->modelByob->getIngrdDetails($aByobIngrdId));
+        }
+        echo json_encode($aIngrds);
+    }
+
+    public function deleteByob()
+    {
+        $aByobId = array(
+            'byob_id' => $this->input->post('iByobId')
+        );
+        $bResult = $this->modelByob->deleteByob($aByobId);
+        echo json_encode($bResult);
+    }
+
+    public function addByobIngrds()
+    {
+        $aData = array(
+            'byobOpt_name' => $this->input->post('sByobIngrdName'),
+            'byobOpt_type' => $this->input->post('iByobIngrdType'),
+            'byobOpt_price' => $this->input->post('dByobIngrdPrice')
+        );
+        echo json_encode($this->modelByob->addByobIngrds($aData));
+    }
+
+    public function deleteByobIngrd()
+    {
+        $aByobId = array(
+            'byobOpt_id' => $this->input->post('iByobId')
+        );
+        $bResult = $this->modelByob->deleteByobIngrd($aByobId);
+        echo json_encode($bResult);
     }
 
 }

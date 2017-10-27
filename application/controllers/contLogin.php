@@ -23,13 +23,13 @@ class contLogin extends CI_Controller {
             'sUsername' => $this->input->post('sUsername'),
             'sPassword' => $this->input->post('sPassword')
         ); 
-        $mResult = $this->modelLogin->logIn($aData); 
-        // var_dump($mResult->user_name);
-        // die();
+        $mResult = $this->modelLogin->logIn($aData);
         if($mResult === false){
             echo json_encode(array('bSuccess' => false));
         } else {
             $aDetails = array('bSuccess' => true);
+            // $aDetails['customer_id'] = $mResult['customer_id'];
+            // $aDetails['customer_fname'] = $mResult['customer_fname'];
             // if (isset($mResult['customer_id']) === true) {
             //     $aDetails['customer_id'] = $mResult['customer_id'];
             //     $aDetails['customer_fname'] = $mResult['customer_fname'];
