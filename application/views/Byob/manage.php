@@ -40,25 +40,36 @@ $this->load->view('essentials/Sidebar.php');
                 <table class="table no-margin">
                   <thead>
                   <tr>
-                    <th>Order ID</th>
-                    <th>Customer</th>
-                    <th>Order Status</th>
-                    <th>Table</th>
-                    <th>Change Status</th>
+                    <th>BYOB ID</th>
+                    <th>Name</th>
+                    <th>Creator</th>
+                    <th>Action</th>
                   </tr>
                   </thead>
 
                   <tbody>
                     <?php
-                    foreach ($order_res as $order) {
+                    foreach ($byob_res as $byob) {
                       ?>
-                      <tr id="entry_<?=$order['order_id']?>">
-                        <td><?=$order['order_id']?></td>
-                        <td><?=$order['customer_nickname']?></td>
-                        <td><span id="orderStatus_<?=$order['order_id']?>" class="label label-default"><?=$order['order_status']?></span></td>
-                        <td><?=$order['table_name']?></td>
+                      <tr id="byob_<?=$byob['byob_id']?>">
+                        <td><?=$byob['byob_id']?></td>
                         <td>
-                          <button type="button" id="btnChangeOrderStatus" class="btn btn-primary" onclick="changeOrderStatus('<?=$order['order_id']?>');">Change Status</button>
+                          <a onclick="getByobIngrd(<?=$byob['byob_id']?>)" data-toggle="modal" data-target="#modalModifyIngrd" ><?=$byob['byob_name']?></a>
+                        </td>
+                        <td><?=$byob['byob_creator']?></td>
+                        <td>
+                          <div class="btn-group">
+                            <button type="button" class="btn btn-default" onclick="getByobDetails(<?=$byob['byob_id']?>);" data-toggle="modal" data-target="#modalModifyByob">Modify Byob</button>
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                              <span class="caret"></span>
+                              <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                              <li><a href="#">Modify Byob Ingredients</a></li>
+                              <li class="divider"></li>
+                              <li><a href="#">Delete Byob</a></li>
+                            </ul>
+                          </div>
                         </td>     
                       </tr>
                       <?php
@@ -71,34 +82,127 @@ $this->load->view('essentials/Sidebar.php');
             </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix">
-              <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
-              <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
+              <!-- <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a> -->
+              <!-- <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a> -->
             </div>
             <!-- /.box-footer -->
           </div>
           <!-- /.box -->
         </div>
         <!-- /.col -->
-
-        
-
 </div>
+
+<!-- Modals -->
+<div class="modal fade" id="modalModifyByob" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Edit B.Y.O.B</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="box-body">
+            <input type="hidden" name="modifyByobId" id="modifyByobId">
+            <div class="form-group">
+              <label for="modifyByobName">BYOB Name</label>
+              <input type="text" class="form-control" id="modifyByobName" placeholder="Enter BYOB Name">
+            </div>
+            <div class="form-group">
+              <label for="modifyByobCreator">BYOB Creator</label>
+              <input type="text" class="form-control" id="modifyByobCreator" placeholder="Enter BYOB Creator">
+            </div>
+          </div>
+          <!-- /.box-body -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" onclick="modifyByob();" class="btn btn-primary">Edit</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modalModifyIngrd" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Default Modal</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="box-body">
+            <input type="hidden" name="modifyByobId" id="modifyByobId">
+            <div class="form-group">
+              <label for="modifyByobName">BYOB Name</label>
+              <input type="text" class="form-control" id="modifyByobName" placeholder="Enter BYOB Name">
+            </div>
+            <div class="form-group">
+              <label for="modifyByobCreator">BYOB Creator</label>
+              <input type="text" class="form-control" id="modifyByobCreator" placeholder="Enter BYOB Creator">
+            </div>
+          </div>
+          <!-- /.box-body -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" onclick="modifyByob();" class="btn btn-primary">Edit</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- End of Modals -->
 <!-- ./wrapper -->
 <?php
 $this->load->view('essentials/footer.php');
 $this->load->view('essentials/footerSrc.php');
 ?>
 <script type="text/javascript">
-  function changeOrderStatus(orderId){
+  function getByobDetails(iByobId) {
     $.ajax({
-      url: '<?php echo base_url();?>contOrders/changeOrderStatus',
+      url: '<?=base_url();?>contByob/getByobDetails',
       type: 'POST',
       dataType: 'json',
-      data: {order_id: orderId},
+      data: {iByobId: iByobId},
     })
-    .done(function(result) {
+    .done(function(oResult) {
       console.log("success");
-      console.log(result);
+      $('#modifyByobId').val(oResult.byob_id);
+      $('#modifyByobName').val(oResult.byob_name);
+      $('#modifyByobCreator').val(oResult.byob_creator);
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
+  }
+
+  function modifyByob() {
+    var iByobId = $('#modifyByobId').val().trim();
+    var sByobName = $('#modifyByobName').val().trim();
+    var sByobCreator = $('#modifyByobCreator').val().trim();
+    $.ajax({
+      url: '<?=base_url();?>contByob/updateByob',
+      type: 'POST',
+      dataType: 'json',
+      data: {iByobId: iByobId, sByobName: sByobName, sByobCreator: sByobCreator},
+    })
+    .done(function(oResult) {
+      var $aDataCol = $('#byob_' + iByobId);
+      $('#byob_' + iByobId + ' td:nth-child(2)').text(oResult.byob_name);
+      $('#byob_' + iByobId + ' td:nth-child(3)').text(oResult.byob_creator);
+      $('#modalModifyByob').modal('toggle');
     })
     .fail(function() {
       console.log("error");
@@ -109,20 +213,5 @@ $this->load->view('essentials/footerSrc.php');
     
   }
 
-  $.ajax({
-    url: '<?php echo base_url();?>contOrders/addOrder',
-    type: 'POST',
-    dataType: 'json',
-  })
-  .done(function(result) {
-    console.log("success");
-    console.log(result);
-  })
-  .fail(function() {
-    console.log("error");
-  })
-  .always(function() {
-    console.log("complete");
-  });
 
 </script>

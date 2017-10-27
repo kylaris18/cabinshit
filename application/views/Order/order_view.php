@@ -37,7 +37,7 @@ $this->load->view('essentials/Sidebar.php');
             <!-- /.box-header -->
             <div class="box-body">
               <div class="table-responsive">
-                <table class="table no-margin">
+                <table id="tbl_order" class="table no-margin">
                   <thead>
                   <tr>
                     <th>Order ID</th>
@@ -70,11 +70,6 @@ $this->load->view('essentials/Sidebar.php');
               <!-- /.table-responsive -->
             </div>
             <!-- /.box-body -->
-            <div class="box-footer clearfix">
-              <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
-              <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
-            </div>
-            <!-- /.box-footer -->
           </div>
           <!-- /.box -->
         </div>
@@ -89,6 +84,9 @@ $this->load->view('essentials/footer.php');
 $this->load->view('essentials/footerSrc.php');
 ?>
 <script type="text/javascript">
+  $(function () {
+    $("#tbl_order").DataTable();
+  });
   function changeOrderStatus(orderId){
     $.ajax({
       url: '<?php echo base_url();?>contOrders/changeOrderStatus',
@@ -109,20 +107,20 @@ $this->load->view('essentials/footerSrc.php');
     
   }
 
-  $.ajax({
-    url: '<?php echo base_url();?>contOrders/addOrder',
-    type: 'POST',
-    dataType: 'json',
-  })
-  .done(function(result) {
-    console.log("success");
-    console.log(result);
-  })
-  .fail(function() {
-    console.log("error");
-  })
-  .always(function() {
-    console.log("complete");
-  });
+  // $.ajax({
+  //   url: '<?php echo base_url();?>contOrders/addOrder',
+  //   type: 'POST',
+  //   dataType: 'json',
+  // })
+  // .done(function(result) {
+  //   console.log("success");
+  //   console.log(result);
+  // })
+  // .fail(function() {
+  //   console.log("error");
+  // })
+  // .always(function() {
+  //   console.log("complete");
+  // });
 
 </script>

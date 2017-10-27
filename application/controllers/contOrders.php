@@ -46,8 +46,6 @@ class ContOrders extends CI_Controller {
             'order_status' => $sNewStatus
         );
         $aResult = $this->modelOrders->changeOrderStatus($iOrderId, $aData);
-        // var_dump($aResult);
-        // die();
         echo json_encode($sOldStatus);
     }
 

@@ -1,5 +1,5 @@
 <?php
-    if (isset($_SESSION['user_type']) === false) {
+    if (isset($_SESSION['bSuccess']) === false) {
         redirect('/','refresh');
     }
 ?>

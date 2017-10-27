@@ -19,50 +19,48 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
+        <li class="header">MAIN NAVIGATION</li>
         <li class="treeview">
           <a href="<?php echo base_url();?>dashboard">
             <i class="fa fa-area-chart"></i> <span>Dashboard</span>
           </a>
-
-          <li>
-          <a href="<?php echo base_url();?>sales">
-            <i class="fa fa-tags"></i> <span>Sales Management</span>
-          </a>
         </li>
-
         <li>
           <a href="<?php echo base_url();?>inventory">
             <i class="fa fa-cubes"></i> <span>Inventory and Stocks</span>
           </a>
         </li>
-         
-        <li class="treeview">
-          <a href="<?php echo base_url();?>users">
-            <i class="fa fa-user"></i>
-            <span>User Management</span>
-         
-          </a>
-        </li>
-
-        <li>
-          <a href="<?php echo base_url();?>byob">
-            <i class="fa fa-magic"></i> <span>BYOB management</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="<?php echo base_url();?>promo">
-            <i class="fa fa-certificate"></i> <span>Promo management</span>
-          </a>
-        </li>
-
         <li>
           <a href="<?php echo base_url();?>order">
             <i class="fa fa-list-alt"></i> <span>Order history</span>
           </a>
         </li>
-        
-        
+        <li class="header">MANAGEMENT</li>
+        <li>
+          <a href="<?php echo base_url();?>sales">
+            <i class="fa fa-tags"></i> <span>Sales Management</span>
+          </a>
+        </li>
+        <li class="treeview">
+          <a href="<?php echo base_url();?>users">
+            <i class="fa fa-user"></i><span>User Management</span>
+          </a>
+        </li>
+        <li>
+          <a href="<?php echo base_url();?>byob">
+            <i class="fa fa-magic"></i> <span>BYOB Management</span>
+          </a>
+        </li>
+        <li>
+          <a href="<?php echo base_url();?>table">
+            <i class="fa fa-glass"></i> <span>Table Management</span>
+          </a>
+        </li>
+        <li>
+          <a href="<?php echo base_url();?>promo">
+            <i class="fa fa-certificate"></i> <span>Promo Management</span>
+          </a>
+        </li>
     </section>
     <!-- /.sidebar -->
   </aside>

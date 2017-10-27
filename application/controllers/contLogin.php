@@ -10,7 +10,7 @@ class contLogin extends CI_Controller {
     // URL Displays
     
     public function index(){
-        if ($this->session->has_userdata('user_type') === false) {
+        if ($this->session->has_userdata('bSuccess') === false) {
             $this->load->view('login/login_view.php');
         } else {
             redirect('/dashboard','refresh');
@@ -19,34 +19,29 @@ class contLogin extends CI_Controller {
 
     public function login()
     {
-        // $this->form_validation->set_rules ('Username', 'User', 'trim|required|xss_clean');
-        // $this->form_validation->set_rules ('Password', 'Pass', 'trim|required|xss_clean');
-
-        // if ($this->form_validation->run() === false) {
-        //     header("location: login_body");
-        // } else {
-        // echo json_encode(array('result' => true));
-            $aData= array(
-                'sUsername' => $this->input->post('sUsername'),
-                'sPassword' => $this->input->post('sPassword')
-            ); 
-            $mResult = $this->modelLogin->logIn($aData); 
-            // var_dump($mResult->user_name);
-            // die();
-            if($mResult === false){
-                echo json_encode(array('bSuccess' => false));
-            } else {
-                $array = array(
-                    'user_name' => $mResult['user_name'],
-                    'user_type' => $mResult['user_type']
-                );
-                
-                $this->session->set_userdata( $array );
-                echo json_encode(array('bSuccess' => true));
-                // echo json_encode($mResult);
+        $aData= array(
+            'sUsername' => $this->input->post('sUsername'),
+            'sPassword' => $this->input->post('sPassword')
+        ); 
+        $mResult = $this->modelLogin->logIn($aData); 
+        // var_dump($mResult->user_name);
+        // die();
+        if($mResult === false){
+            echo json_encode(array('bSuccess' => false));
+        } else {
+            $aDetails = array('bSuccess' => true);
+            if (isset($mResult['customer_id']) === true) {
+                $aDetails['customer_id'] = $mResult['customer_id'];
+                $aDetails['customer_fname'] = $mResult['customer_fname'];
+                $aDetails['customer_lname'] = $mResult['customer_lname'];
+                $aDetails['customer_nickname'] = $mResult['customer_nickname'];
+                $aDetails['customer_address'] = $mResult['customer_address'];
+                $aDetails['customer_email'] = $mResult['customer_email'];
+                $aDetails['customer_contact'] = $mResult['customer_contact'];
             }
-        // }
-
+            $this->session->set_userdata( $aDetails );
+            echo json_encode($aDetails);
+        }
     }
 
     public function logout()
